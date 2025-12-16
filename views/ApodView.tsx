@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { nasaService } from '../services/nasaService';
 import { ApodData } from '../types';
-import { Info, Maximize2, Download, Loader2, Calendar, ExternalLink } from 'lucide-react';
+import { Info, Maximize2, Loader2, Calendar, ExternalLink } from 'lucide-react';
 
 const ApodView: React.FC = () => {
   const [data, setData] = useState<ApodData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [downloading, setDownloading] = useState(false);
   
   // Date state
   const today = new Date().toISOString().split('T')[0];
@@ -53,46 +52,6 @@ const ApodView: React.FC = () => {
   const handleDateClick = (dateStr: string) => {
       setSelectedDate(dateStr);
       loadData(dateStr);
-  };
-
-  const downloadImage = async () => {
-    if (!data || data.media_type !== 'image' || downloading) return;
-    
-    setDownloading(true);
-    const imageUrl = data.hdurl || data.url;
-    const filename = `apod - ${data.date}.jpg`;
-
-    const triggerDownload = (blob: Blob) => {
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-    };
-
-    try {
-      const response = await fetch(imageUrl);
-      if (!response.ok) throw new Error('Network error');
-      const blob = await response.blob();
-      triggerDownload(blob);
-    } catch (e) {
-      console.warn("Download diretto bloccato da CORS, tentativo con proxy...", e);
-      try {
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(imageUrl)}`;
-        const response = await fetch(proxyUrl);
-        if (!response.ok) throw new Error('Proxy error');
-        const blob = await response.blob();
-        triggerDownload(blob);
-      } catch (proxyError) {
-         console.error("Download fallito", proxyError);
-         alert("Impossibile completare il download automatico a causa delle restrizioni di sicurezza del browser. Riprova più tardi.");
-      }
-    } finally {
-        setDownloading(false);
-    }
   };
 
   // Calculate past dates
@@ -143,25 +102,25 @@ const ApodView: React.FC = () => {
           <div className="w-px h-8 bg-white/20 mx-2 hidden md:block"></div>
 
           {/* Search Controls */}
-          <div className="flex items-center gap-2 w-full md:w-auto mt-1 md:mt-0 min-w-0">
-              <div className="relative w-full md:w-auto">
+          <div className="flex items-center justify-center md:justify-start gap-2 w-full md:w-auto mt-1 md:mt-0 min-w-0">
+              <div className="relative w-auto">
                   <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-space-accent pointer-events-none" size={16} />
                   <input 
                     type="date" 
                     max={today}
                     value={selectedDate}
                     onChange={handleDateChange}
-                    className="bg-black/40 border border-white/20 rounded-lg pl-10 pr-3 text-white text-sm focus:outline-none focus:border-space-accent focus:bg-space-900/50 h-10 w-full md:w-48 font-mono transition-colors min-w-0"
+                    className="bg-black/40 border border-white/20 rounded-lg pl-10 pr-3 text-white text-sm focus:outline-none focus:border-space-accent focus:bg-space-900/50 h-10 w-48 font-mono transition-colors min-w-0"
                   />
               </div>
           </div>
 
-           {/* Archive Link */}
+           {/* Archive Link - Removed order-first, added ml-auto for desktop */}
            <a 
             href="https://apod.nasa.gov/apod/archivepixFull.html" 
             target="_blank" 
             rel="noreferrer"
-            className="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white transition-colors bg-white/5 rounded-lg hover:bg-white/10 border border-transparent hover:border-white/10 w-full md:w-auto justify-center md:justify-start mt-1 md:mt-0"
+            className="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white transition-colors bg-white/5 rounded-lg hover:bg-white/10 border border-transparent hover:border-white/10 w-full md:w-auto justify-center md:justify-start mt-1 md:mt-0 md:ml-auto"
             title="Archivio Completo NASA"
           >
               <span className="text-sm font-bold">Archivio Completo</span>
@@ -191,7 +150,7 @@ const ApodView: React.FC = () => {
                       {data.title}
                   </h1>
                   <p className="text-space-accent font-mono text-xl md:text-2xl mt-2 font-bold">
-                      {data.date}
+                      {data.date.split('-').reverse().join('/')}
                   </p>
               </div>
 
@@ -214,27 +173,17 @@ const ApodView: React.FC = () => {
                       </div>
                   )}
                   
-                  {/* Controls Overlay on Hover */}
+                  {/* Controls Overlay on Hover - Download removed */}
                   <div className="absolute top-4 right-4 flex gap-2 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-all">
-                      {data.media_type === 'image' && (
-                      <button 
-                          onClick={downloadImage}
-                          disabled={downloading}
-                          className="bg-black/60 hover:bg-space-accent hover:text-black text-white p-3 rounded-full backdrop-blur-md transition-colors disabled:opacity-50 disabled:cursor-wait shadow-lg border border-white/10"
-                          title="Scarica Immagine"
-                      >
-                          {downloading ? <Loader2 size={24} className="animate-spin" /> : <Download size={24} />}
-                      </button>
-                      )}
                       {data.hdurl && (
                       <a 
                           href={data.hdurl} 
                           target="_blank" 
                           rel="noreferrer"
-                          className="bg-black/60 hover:bg-space-accent hover:text-black text-white p-3 rounded-full backdrop-blur-md transition-colors shadow-lg border border-white/10"
+                          className="bg-black/60 hover:bg-space-accent hover:text-black text-white p-2 md:p-3 rounded-full backdrop-blur-md transition-colors shadow-lg border border-white/10"
                           title="Vedi HD"
                       >
-                          <Maximize2 size={24} />
+                          <Maximize2 className="w-5 h-5 md:w-6 md:h-6" />
                       </a>
                       )}
                   </div>
