@@ -110,46 +110,48 @@ const ApodView: React.FC = () => {
       </div>
 
       {/* 2. Search Toolbar (Standard Flow) */}
-      <div className="bg-space-900/50 border border-white/10 rounded-xl p-4 flex flex-wrap items-center gap-3 backdrop-blur-md shadow-lg">
+      <div className="bg-space-900/50 border border-white/10 rounded-xl p-4 flex flex-col md:flex-row flex-wrap items-stretch md:items-center gap-3 backdrop-blur-md shadow-lg">
           
-          {/* Quick Filters */}
-          <button 
-              onClick={() => handleDateClick(today)}
-              className={`h-10 px-4 rounded-lg font-bold text-sm transition-all border ${selectedDate === today ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
-          >
-              Oggi
-          </button>
-          <button 
-              onClick={() => handleDateClick(yesterday)}
-              className={`h-10 px-4 rounded-lg font-bold text-sm transition-all border ${selectedDate === yesterday ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
-          >
-              Ieri
-          </button>
-          <button 
-              onClick={() => handleDateClick(twoDaysAgo)}
-              className={`h-10 px-3 rounded-lg font-mono text-sm transition-all border ${selectedDate === twoDaysAgo ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
-          >
-              {formatDateLabel(twoDaysAgo)}
-          </button>
-          <button 
-              onClick={() => handleDateClick(threeDaysAgo)}
-              className={`h-10 px-3 rounded-lg font-mono text-sm transition-all border ${selectedDate === threeDaysAgo ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
-          >
-              {formatDateLabel(threeDaysAgo)}
-          </button>
+          {/* Quick Filters Row */}
+          <div className="grid grid-cols-4 gap-2 md:flex md:gap-3">
+              <button 
+                  onClick={() => handleDateClick(today)}
+                  className={`h-10 px-2 md:px-4 rounded-lg font-bold text-xs md:text-sm transition-all border truncate ${selectedDate === today ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
+              >
+                  Oggi
+              </button>
+              <button 
+                  onClick={() => handleDateClick(yesterday)}
+                  className={`h-10 px-2 md:px-4 rounded-lg font-bold text-xs md:text-sm transition-all border truncate ${selectedDate === yesterday ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
+              >
+                  Ieri
+              </button>
+              <button 
+                  onClick={() => handleDateClick(twoDaysAgo)}
+                  className={`h-10 px-2 md:px-3 rounded-lg font-mono text-xs md:text-sm transition-all border truncate ${selectedDate === twoDaysAgo ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
+              >
+                  {formatDateLabel(twoDaysAgo)}
+              </button>
+              <button 
+                  onClick={() => handleDateClick(threeDaysAgo)}
+                  className={`h-10 px-2 md:px-3 rounded-lg font-mono text-xs md:text-sm transition-all border truncate ${selectedDate === threeDaysAgo ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
+              >
+                  {formatDateLabel(threeDaysAgo)}
+              </button>
+          </div>
 
-          <div className="w-px h-8 bg-white/20 mx-2 hidden sm:block"></div>
+          <div className="w-px h-8 bg-white/20 mx-2 hidden md:block"></div>
 
-          {/* Search Controls - Form removed to prevent issue with submit, replaced with auto-search */}
-          <div className="flex items-center gap-2 flex-grow sm:flex-grow-0 w-full sm:w-auto">
-              <div className="relative flex-grow w-full sm:w-auto">
+          {/* Search Controls */}
+          <div className="flex items-center gap-2 flex-grow w-full md:w-auto mt-2 md:mt-0">
+              <div className="relative flex-grow w-full md:w-auto">
                   <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-space-accent pointer-events-none" size={16} />
                   <input 
                     type="date" 
                     max={today}
                     value={selectedDate}
                     onChange={handleDateChange}
-                    className="bg-black/40 border border-white/20 rounded-lg pl-10 pr-3 text-white text-sm focus:outline-none focus:border-space-accent focus:bg-space-900/50 h-10 w-full sm:w-48 font-mono transition-colors"
+                    className="bg-black/40 border border-white/20 rounded-lg pl-10 pr-3 text-white text-sm focus:outline-none focus:border-space-accent focus:bg-space-900/50 h-10 w-full md:w-48 font-mono transition-colors"
                   />
               </div>
           </div>
@@ -159,7 +161,7 @@ const ApodView: React.FC = () => {
             href="https://apod.nasa.gov/apod/archivepixFull.html" 
             target="_blank" 
             rel="noreferrer"
-            className="ml-auto flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white transition-colors bg-white/5 rounded-lg hover:bg-white/10 border border-transparent hover:border-white/10 w-full sm:w-auto justify-center sm:justify-start"
+            className="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white transition-colors bg-white/5 rounded-lg hover:bg-white/10 border border-transparent hover:border-white/10 w-full md:w-auto justify-center md:justify-start mt-2 md:mt-0"
             title="Archivio Completo NASA"
           >
               <span className="text-sm font-bold">Archivio Completo</span>

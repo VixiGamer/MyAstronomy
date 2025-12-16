@@ -108,39 +108,41 @@ const LibraryView: React.FC = () => {
         </div>
       )}
 
-      {/* Modal - Fullscreen on mobile to fix layout shift/scrolling issues */}
+      {/* Modal - Card Style on Mobile */}
       {selectedImage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-4 bg-black/90 backdrop-blur-sm animate-fade-in">
-           <div className="relative w-full h-full md:h-auto md:w-full md:max-w-5xl md:max-h-[90vh] flex flex-col bg-space-900 rounded-none md:rounded-2xl overflow-hidden border-none md:border border-white/10 shadow-2xl">
-              <div className="absolute top-4 right-4 z-10 flex gap-2">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm animate-fade-in">
+           {/* Changed from w-full h-full to a constrained card for mobile */}
+           <div className="relative w-full max-w-[90vw] md:max-w-5xl h-auto max-h-[85vh] md:max-h-[90vh] flex flex-col bg-space-900 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+              
+              <div className="absolute top-4 right-4 z-20 flex gap-2">
                   <button 
                     onClick={downloadSelected}
-                    className="p-2 bg-black/50 hover:bg-space-accent hover:text-black rounded-full text-white transition-colors"
+                    className="p-2 bg-black/60 hover:bg-space-accent hover:text-black rounded-full text-white transition-colors border border-white/10"
                   >
-                    <Download size={24} />
+                    <Download size={20} />
                   </button>
                   <button 
                     onClick={() => setSelectedImage(null)}
-                    className="p-2 bg-black/50 hover:bg-red-500 rounded-full text-white transition-colors"
+                    className="p-2 bg-black/60 hover:bg-red-500 rounded-full text-white transition-colors border border-white/10"
                   >
-                    <X size={24} />
+                    <X size={20} />
                   </button>
               </div>
               
-              <div className="flex-1 overflow-auto bg-black flex items-center justify-center p-4">
+              <div className="flex-1 overflow-hidden bg-black flex items-center justify-center p-2 relative">
                  <img 
                     src={selectedImage.links?.find(l => l.render === 'image' || l.href.endsWith('.jpg'))?.href} 
                     alt={selectedImage.data[0].title}
-                    className="max-w-full max-h-[70vh] object-contain"
+                    className="max-w-full max-h-full object-contain"
                  />
               </div>
               
-              <div className="p-6 bg-space-900 border-t border-white/10 overflow-y-auto max-h-[30vh] md:max-h-[30vh] shrink-0">
-                 <h3 className="text-2xl font-bold font-display text-white mb-2">{selectedImage.data[0].title}</h3>
-                 <p className="text-gray-300 text-sm leading-relaxed">{selectedImage.data[0].description}</p>
-                 <div className="mt-4 flex gap-4 text-xs text-gray-500 font-mono">
-                    <span>ID: {selectedImage.data[0].nasa_id}</span>
-                    <span>Date: {new Date(selectedImage.data[0].date_created).toLocaleDateString()}</span>
+              <div className="p-5 bg-space-900 border-t border-white/10 overflow-y-auto shrink-0 max-h-[35vh]">
+                 <h3 className="text-xl md:text-2xl font-bold font-display text-white mb-2 leading-tight break-words">{selectedImage.data[0].title}</h3>
+                 <p className="text-gray-300 text-sm leading-relaxed mb-4 break-words whitespace-pre-wrap">{selectedImage.data[0].description}</p>
+                 <div className="flex flex-wrap gap-4 text-xs text-gray-500 font-mono border-t border-white/5 pt-3">
+                    <span className="bg-white/5 px-2 py-1 rounded">ID: {selectedImage.data[0].nasa_id}</span>
+                    <span className="bg-white/5 px-2 py-1 rounded">Date: {new Date(selectedImage.data[0].date_created).toLocaleDateString()}</span>
                  </div>
               </div>
            </div>

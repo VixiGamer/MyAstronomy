@@ -78,9 +78,9 @@ const App: React.FC = () => {
         <p>Dati forniti da <a href="https://api.nasa.gov" target="_blank" rel="noreferrer" className="text-space-accent hover:underline">NASA Open APIs</a>.</p>
         <p className="mt-2 opacity-50">&copy; {new Date().getFullYear()} {APP_NAME}.
         <br />
-        Creato da Viggo Ponturo Nygaard e da Google AI Studio.</p>
+        Created by Viggo Ponturo Nygaard and Google AI Studio.</p>
         <br />
-        Version 1.0.1
+        Version 1.0.2
       </footer>
     </div>
   );
