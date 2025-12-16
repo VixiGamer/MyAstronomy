@@ -101,40 +101,40 @@ const ApodView: React.FC = () => {
   const threeDaysAgo = getPastDate(3);
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 animate-fade-in pb-12">
+    <div className="max-w-5xl mx-auto space-y-8 animate-fade-in pb-12 w-full overflow-hidden">
       
       {/* 1. API Title Section - CENTERED */}
-      <div className="text-center mb-6">
+      <div className="text-center mb-6 px-4">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-2">APOD</h2>
           <p className="text-gray-400 text-lg">Astronomy Picture of the Day</p>
       </div>
 
       {/* 2. Search Toolbar (Standard Flow) */}
-      <div className="bg-space-900/50 border border-white/10 rounded-xl p-4 flex flex-col md:flex-row flex-wrap items-stretch md:items-center gap-3 backdrop-blur-md shadow-lg">
+      <div className="mx-4 md:mx-0 bg-space-900/50 border border-white/10 rounded-xl p-4 flex flex-col md:flex-row flex-wrap items-stretch md:items-center gap-3 backdrop-blur-md shadow-lg max-w-full overflow-hidden">
           
-          {/* Quick Filters Row */}
-          <div className="grid grid-cols-4 gap-2 md:flex md:gap-3">
+          {/* Quick Filters Row - Reduced gap on mobile to prevent overflow forcing */}
+          <div className="grid grid-cols-4 gap-1 md:flex md:gap-3 w-full md:w-auto">
               <button 
                   onClick={() => handleDateClick(today)}
-                  className={`h-10 px-2 md:px-4 rounded-lg font-bold text-xs md:text-sm transition-all border truncate ${selectedDate === today ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
+                  className={`h-10 px-1 md:px-4 rounded-lg font-bold text-xs md:text-sm transition-all border truncate ${selectedDate === today ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
               >
                   Oggi
               </button>
               <button 
                   onClick={() => handleDateClick(yesterday)}
-                  className={`h-10 px-2 md:px-4 rounded-lg font-bold text-xs md:text-sm transition-all border truncate ${selectedDate === yesterday ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
+                  className={`h-10 px-1 md:px-4 rounded-lg font-bold text-xs md:text-sm transition-all border truncate ${selectedDate === yesterday ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
               >
                   Ieri
               </button>
               <button 
                   onClick={() => handleDateClick(twoDaysAgo)}
-                  className={`h-10 px-2 md:px-3 rounded-lg font-mono text-xs md:text-sm transition-all border truncate ${selectedDate === twoDaysAgo ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
+                  className={`h-10 px-1 md:px-3 rounded-lg font-mono text-xs md:text-sm transition-all border truncate ${selectedDate === twoDaysAgo ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
               >
                   {formatDateLabel(twoDaysAgo)}
               </button>
               <button 
                   onClick={() => handleDateClick(threeDaysAgo)}
-                  className={`h-10 px-2 md:px-3 rounded-lg font-mono text-xs md:text-sm transition-all border truncate ${selectedDate === threeDaysAgo ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
+                  className={`h-10 px-1 md:px-3 rounded-lg font-mono text-xs md:text-sm transition-all border truncate ${selectedDate === threeDaysAgo ? 'bg-space-accent text-space-950 border-space-accent' : 'bg-white/5 text-gray-300 border-transparent hover:bg-white/10'}`}
               >
                   {formatDateLabel(threeDaysAgo)}
               </button>
@@ -143,15 +143,15 @@ const ApodView: React.FC = () => {
           <div className="w-px h-8 bg-white/20 mx-2 hidden md:block"></div>
 
           {/* Search Controls */}
-          <div className="flex items-center gap-2 flex-grow w-full md:w-auto mt-2 md:mt-0">
-              <div className="relative flex-grow w-full md:w-auto">
+          <div className="flex items-center gap-2 w-full md:w-auto mt-1 md:mt-0 min-w-0">
+              <div className="relative w-full md:w-auto">
                   <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-space-accent pointer-events-none" size={16} />
                   <input 
                     type="date" 
                     max={today}
                     value={selectedDate}
                     onChange={handleDateChange}
-                    className="bg-black/40 border border-white/20 rounded-lg pl-10 pr-3 text-white text-sm focus:outline-none focus:border-space-accent focus:bg-space-900/50 h-10 w-full md:w-48 font-mono transition-colors"
+                    className="bg-black/40 border border-white/20 rounded-lg pl-10 pr-3 text-white text-sm focus:outline-none focus:border-space-accent focus:bg-space-900/50 h-10 w-full md:w-48 font-mono transition-colors min-w-0"
                   />
               </div>
           </div>
@@ -161,7 +161,7 @@ const ApodView: React.FC = () => {
             href="https://apod.nasa.gov/apod/archivepixFull.html" 
             target="_blank" 
             rel="noreferrer"
-            className="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white transition-colors bg-white/5 rounded-lg hover:bg-white/10 border border-transparent hover:border-white/10 w-full md:w-auto justify-center md:justify-start mt-2 md:mt-0"
+            className="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white transition-colors bg-white/5 rounded-lg hover:bg-white/10 border border-transparent hover:border-white/10 w-full md:w-auto justify-center md:justify-start mt-1 md:mt-0"
             title="Archivio Completo NASA"
           >
               <span className="text-sm font-bold">Archivio Completo</span>
@@ -170,7 +170,7 @@ const ApodView: React.FC = () => {
       </div>
 
       {/* 3. Main Content */}
-      <div className="min-h-[50vh]">
+      <div className="min-h-[50vh] px-4 md:px-0">
         {loading ? (
             <div className="text-cyan-400 animate-pulse text-xl text-center font-display h-64 flex items-center justify-center">
                 <div className="flex flex-col items-center gap-4">
