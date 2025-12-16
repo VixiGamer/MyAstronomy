@@ -108,10 +108,10 @@ const LibraryView: React.FC = () => {
         </div>
       )}
 
-      {/* Modal */}
+      {/* Modal - Fullscreen on mobile to fix layout shift/scrolling issues */}
       {selectedImage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm animate-fade-in">
-           <div className="relative max-w-5xl w-full max-h-[90vh] flex flex-col bg-space-900 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-4 bg-black/90 backdrop-blur-sm animate-fade-in">
+           <div className="relative w-full h-full md:h-auto md:w-full md:max-w-5xl md:max-h-[90vh] flex flex-col bg-space-900 rounded-none md:rounded-2xl overflow-hidden border-none md:border border-white/10 shadow-2xl">
               <div className="absolute top-4 right-4 z-10 flex gap-2">
                   <button 
                     onClick={downloadSelected}
@@ -135,7 +135,7 @@ const LibraryView: React.FC = () => {
                  />
               </div>
               
-              <div className="p-6 bg-space-900 border-t border-white/10 overflow-y-auto max-h-[30vh]">
+              <div className="p-6 bg-space-900 border-t border-white/10 overflow-y-auto max-h-[30vh] md:max-h-[30vh] shrink-0">
                  <h3 className="text-2xl font-bold font-display text-white mb-2">{selectedImage.data[0].title}</h3>
                  <p className="text-gray-300 text-sm leading-relaxed">{selectedImage.data[0].description}</p>
                  <div className="mt-4 flex gap-4 text-xs text-gray-500 font-mono">

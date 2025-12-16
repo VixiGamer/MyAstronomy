@@ -40,27 +40,27 @@ const MarsView: React.FC = () => {
 
       {/* Controls */}
       <div className="bg-space-900/80 p-6 rounded-2xl border border-white/10 backdrop-blur-md flex flex-col md:flex-row gap-6 justify-between items-center sticky top-24 z-20 shadow-xl transition-all">
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
           <button 
             onClick={() => setRover('curiosity')}
-            className={`px-6 py-2 rounded-full font-display font-bold transition-all ${rover === 'curiosity' ? 'bg-orange-600 text-white shadow-[0_0_15px_rgba(234,88,12,0.5)]' : 'bg-white/5 hover:bg-white/10 text-gray-400'}`}
+            className={`px-6 py-2 rounded-full font-display font-bold transition-all w-full sm:w-auto ${rover === 'curiosity' ? 'bg-orange-600 text-white shadow-[0_0_15px_rgba(234,88,12,0.5)]' : 'bg-white/5 hover:bg-white/10 text-gray-400'}`}
           >
             CURIOSITY
           </button>
           <button 
             onClick={() => setRover('perseverance')}
-            className={`px-6 py-2 rounded-full font-display font-bold transition-all ${rover === 'perseverance' ? 'bg-orange-600 text-white shadow-[0_0_15px_rgba(234,88,12,0.5)]' : 'bg-white/5 hover:bg-white/10 text-gray-400'}`}
+            className={`px-6 py-2 rounded-full font-display font-bold transition-all w-full sm:w-auto ${rover === 'perseverance' ? 'bg-orange-600 text-white shadow-[0_0_15px_rgba(234,88,12,0.5)]' : 'bg-white/5 hover:bg-white/10 text-gray-400'}`}
           >
             PERSEVERANCE
           </button>
         </div>
 
-        <div className="flex items-center gap-4 bg-black/30 px-4 py-2 rounded-lg border border-white/5">
-          <span className="text-gray-400 font-mono text-sm uppercase">Sol (Giorno Marziano)</span>
+        <div className="flex items-center gap-4 bg-black/30 px-4 py-2 rounded-lg border border-white/5 w-full sm:w-auto justify-between sm:justify-center">
+          <span className="text-gray-400 font-mono text-sm uppercase">Sol (Giorno)</span>
           <div className="flex items-center gap-2">
-            <button onClick={() => setSol(Math.max(1, sol - 10))} className="text-orange-500 hover:text-white">-</button>
+            <button onClick={() => setSol(Math.max(1, sol - 10))} className="text-orange-500 hover:text-white px-2 font-bold text-xl">-</button>
             <span className="w-12 text-center font-bold text-xl">{sol}</span>
-            <button onClick={() => setSol(sol + 10)} className="text-orange-500 hover:text-white">+</button>
+            <button onClick={() => setSol(sol + 10)} className="text-orange-500 hover:text-white px-2 font-bold text-xl">+</button>
           </div>
         </div>
       </div>

@@ -11,10 +11,10 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   return (
     <div className="max-w-7xl mx-auto py-12">
       <div className="text-center mb-16 space-y-4 animate-fade-in">
-        <h1 className="text-5xl md:text-7xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-gray-400 drop-shadow-lg">
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-gray-400 drop-shadow-lg pb-2">
           MyAstronomy
         </h1>
-        <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+        <p className="text-xl text-gray-400 max-w-2xl mx-auto px-4">
           Esplora l'intero catalogo API della NASA. Dallo spazio profondo alla tecnologia terrestre.
         </p>
       </div>
@@ -34,14 +34,14 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
               {/* Card Background with Gradient */}
               <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-10 group-hover:opacity-20 transition-opacity`}></div>
               <div className="absolute inset-0 bg-space-900/60 backdrop-blur-sm border border-white/10 group-hover:border-white/20 transition-colors"></div>
-
+              
               {/* Content */}
               <div className="absolute inset-0 p-6 flex flex-col">
                 <div className="flex justify-between items-start mb-4">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center shadow-lg group-hover:rotate-6 transition-transform duration-300`}>
-                    <Icon className="text-white" size={24} />
-                  </div>
-                  <LucideIcons.ArrowUpRight className="text-white/20 group-hover:text-white transition-colors" size={20} />
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center shadow-lg group-hover:rotate-6 transition-transform duration-300`}>
+                        <Icon className="text-white" size={24} />
+                    </div>
+                    <LucideIcons.ArrowUpRight className="text-white/20 group-hover:text-white transition-colors" size={20} />
                 </div>
 
                 <div className="mt-auto">

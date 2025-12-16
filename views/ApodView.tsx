@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { nasaService } from '../services/nasaService';
 import { ApodData } from '../types';
-import { Info, Maximize2, Download, Loader2, Calendar, Search, ExternalLink } from 'lucide-react';
+import { Info, Maximize2, Download, Loader2, Calendar, ExternalLink } from 'lucide-react';
 
 const ApodView: React.FC = () => {
   const [data, setData] = useState<ApodData | null>(null);
@@ -18,7 +18,6 @@ const ApodView: React.FC = () => {
     try {
       const result = await nasaService.getApod(dateStr);
       setData(result);
-      if (result.date) setSelectedDate(result.date);
     } catch (error) {
       console.error(error);
     } finally {
@@ -27,12 +26,17 @@ const ApodView: React.FC = () => {
   };
 
   useEffect(() => {
+    // Initial load
     loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleSearch = (e: React.FormEvent) => {
-      e.preventDefault();
-      loadData(selectedDate);
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newDate = e.target.value;
+      setSelectedDate(newDate);
+      if(newDate) {
+          loadData(newDate);
+      }
   };
 
   const getPastDate = (days: number) => {
@@ -136,37 +140,29 @@ const ApodView: React.FC = () => {
 
           <div className="w-px h-8 bg-white/20 mx-2 hidden sm:block"></div>
 
-          {/* Search Controls */}
-          <form onSubmit={handleSearch} className="flex items-center gap-2 flex-grow sm:flex-grow-0">
-              <div className="relative flex-grow sm:w-auto">
+          {/* Search Controls - Form removed to prevent issue with submit, replaced with auto-search */}
+          <div className="flex items-center gap-2 flex-grow sm:flex-grow-0 w-full sm:w-auto">
+              <div className="relative flex-grow w-full sm:w-auto">
                   <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-space-accent pointer-events-none" size={16} />
                   <input 
                     type="date" 
                     max={today}
                     value={selectedDate}
-                    onChange={(e) => setSelectedDate(e.target.value)}
-                    className="bg-black/40 border border-white/20 rounded-lg pl-10 pr-3 text-white text-sm focus:outline-none focus:border-space-accent focus:bg-space-900/50 h-10 w-full sm:w-40 font-mono transition-colors"
+                    onChange={handleDateChange}
+                    className="bg-black/40 border border-white/20 rounded-lg pl-10 pr-3 text-white text-sm focus:outline-none focus:border-space-accent focus:bg-space-900/50 h-10 w-full sm:w-48 font-mono transition-colors"
                   />
               </div>
-              <button 
-                type="submit" 
-                disabled={loading}
-                className="bg-space-accent hover:bg-cyan-400 text-space-950 h-10 w-10 flex items-center justify-center rounded-lg font-bold transition-colors shadow-lg"
-                title="Cerca"
-              >
-                  {loading ? <Loader2 className="animate-spin" size={18}/> : <Search size={18} />}
-              </button>
-          </form>
+          </div>
 
            {/* Archive Link */}
            <a 
             href="https://apod.nasa.gov/apod/archivepixFull.html" 
             target="_blank" 
             rel="noreferrer"
-            className="ml-auto flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white transition-colors bg-white/5 rounded-lg hover:bg-white/10 border border-transparent hover:border-white/10"
+            className="ml-auto flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white transition-colors bg-white/5 rounded-lg hover:bg-white/10 border border-transparent hover:border-white/10 w-full sm:w-auto justify-center sm:justify-start"
             title="Archivio Completo NASA"
           >
-              <span className="text-sm font-bold hidden sm:inline">Archivio Completo</span>
+              <span className="text-sm font-bold">Archivio Completo</span>
               <ExternalLink size={18} />
           </a>
       </div>
@@ -189,7 +185,7 @@ const ApodView: React.FC = () => {
           <>
               {/* Photo Title & Date (Outside Image) */}
               <div className="flex flex-col border-l-4 border-space-accent pl-6 py-2 mb-6">
-                  <h1 className="text-4xl md:text-5xl font-display font-bold text-white tracking-wide uppercase leading-tight">
+                  <h1 className="text-3xl md:text-5xl font-display font-bold text-white tracking-wide uppercase leading-tight">
                       {data.title}
                   </h1>
                   <p className="text-space-accent font-mono text-xl md:text-2xl mt-2 font-bold">
@@ -217,7 +213,7 @@ const ApodView: React.FC = () => {
                   )}
                   
                   {/* Controls Overlay on Hover */}
-                  <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                  <div className="absolute top-4 right-4 flex gap-2 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-all">
                       {data.media_type === 'image' && (
                       <button 
                           onClick={downloadImage}
@@ -254,9 +250,9 @@ const ApodView: React.FC = () => {
                   </p>
                   
                   {data.copyright && (
-                  <div className="mt-6 pt-6 border-t border-white/10 text-right">
+                  <div className="mt-6 pt-6 border-t border-white/10 text-left">
                       <p className="text-sm text-gray-500 font-mono">
-                      Image Credit & Copyright: <span className="text-gray-300">{data.copyright}</span>
+                      Image Credit & Copyright: <span className="text-gray-300 font-bold">{data.copyright}</span>
                       </p>
                   </div>
                   )}

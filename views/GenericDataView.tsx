@@ -33,8 +33,8 @@ const GenericDataView: React.FC<GenericDataProps> = ({ type }) => {
         };
       case 'ssd':
         return {
-          title: "Solar System Dynamics (SSD/CNEOS)",
-          desc: "Orbite, effemeridi e probabilità di impatto.",
+          title: "Solar System Dynamics",
+          desc: "Orbite, effemeridi e probabilità di impatto (SSD/CNEOS).",
           links: [
             { label: "JPL Horizons System", url: "https://ssd.jpl.nasa.gov/horizons/" },
             { label: "Sentry: Earth Impact Monitoring", url: "https://cneos.jpl.nasa.gov/sentry/" }
@@ -62,15 +62,16 @@ const GenericDataView: React.FC<GenericDataProps> = ({ type }) => {
 
   return (
     <div className="max-w-4xl mx-auto py-12 px-6">
-      <div className="bg-space-900/80 border border-white/10 rounded-3xl p-10 backdrop-blur-md shadow-2xl relative overflow-hidden">
+      <div className="bg-space-900/80 border border-white/10 rounded-3xl p-6 md:p-10 backdrop-blur-md shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-space-accent/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
         
         <div className="relative z-10 text-center mb-12">
             <div className="w-20 h-20 bg-space-800 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-white/10 shadow-lg">
                 <Database size={40} className="text-space-accent" />
             </div>
-            <h2 className="text-4xl font-display font-bold text-white mb-4">{config.title}</h2>
-            <p className="text-xl text-gray-400 max-w-lg mx-auto">{config.desc}</p>
+            {/* Reduced title size on mobile to prevent overflow/cut-off */}
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-white mb-4 leading-tight break-words">{config.title}</h2>
+            <p className="text-lg md:text-xl text-gray-400 max-w-lg mx-auto">{config.desc}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
@@ -98,10 +99,11 @@ const GenericDataView: React.FC<GenericDataProps> = ({ type }) => {
             </div>
         </div>
 
+        {/* Disclaimer Pill - Fixed width for mobile to avoid text squashing */}
         <div className="mt-12 text-center">
-             <p className="text-sm text-gray-600 bg-black/20 inline-block px-4 py-2 rounded-full">
-                Questi dati sono forniti tramite API complesse o servizi WMTS. <br/>Per la migliore esperienza, utilizza i link diretti agli strumenti NASA.
-             </p>
+             <div className="text-sm text-gray-600 bg-black/30 block sm:inline-block w-full sm:w-auto px-4 py-3 sm:py-2 rounded-xl sm:rounded-full leading-relaxed">
+                Questi dati sono forniti tramite API complesse o servizi WMTS. <br className="hidden sm:block" />Per la migliore esperienza, utilizza i link diretti agli strumenti NASA.
+             </div>
         </div>
       </div>
     </div>
